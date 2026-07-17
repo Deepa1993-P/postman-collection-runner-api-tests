@@ -1,1 +1,1529 @@
-
+{
+  "info": {
+    "_postman_id": "ea40db5f-b9d0-4ff5-a888-293eca7c6a50",
+    "name": "PP-01-User Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56161681"
+  },
+  "item": [
+    {
+      "name": "GET LIST OF USERS-Wrong endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "//Verify the status codes for incorrect URL endpoints.\r",
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/us",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "us"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET LIST OF USERS",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the status codes for correct URL endpoints.",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "//Verify the header for correct URL endpoints.",
+              "pm.test(\"content-type is present\", function() {",
+              "    pm.response.to.have.header(\"content-type\");",
+              "});",
+              "",
+              "pm.test(\"content-type header is application/json\", function() {",
+              "    pm.expect(pm.response.headers.get(\"content-type\")).to.eql('application/json; charset=utf-8');",
+              "});",
+              "//Verify the cookies for correct URL endpoints.",
+              "pm.test(\"cookies 'ahoy_visitor' is present\", function() {",
+              "    pm.expect(pm.cookies.has(\"ahoy_visitor\")).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE NEW USER-Without token",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "//To create random name and email for the user creation request.\r",
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"Sonia\"+random+\"@gmail.com\";\r",
+              "var username=\"Sonia\"+random;\r",
+              "\r",
+              "//Create collection variables with random name and email values for use in the request body\r",
+              "pm.collectionVariables.set(\"email_col\", useremail);\r",
+              "pm.collectionVariables.set(\"username_col\", username);\r",
+              "\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "",
+              "",
+              "//Verify the status code returned when the Bearer token is missing.",
+              "pm.test(\"status code is 401\", function() {",
+              "    pm.response.to.have.status(401)",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"name\": \"{{username_col}}\", \r\n    \"email\": \"{{useremail_col}}\",\r\n     \"gender\": \"Female\",\r\n      \"status\": \"active\" \r\n      }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE NEW USER-Invalid token",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "//To create random name and email for the user creation request.\r",
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"Sonia\"+random+\"@gmail.com\";\r",
+              "var username=\"Sonia\"+random;\r",
+              "\r",
+              "//Create collection variables with random name and email values for use in the request body\r",
+              "pm.collectionVariables.set(\"email_col\", useremail);\r",
+              "pm.collectionVariables.set(\"username_col\", username);\r",
+              "\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "",
+              "",
+              "//Verify the status code returned when the Bearer token is missing.",
+              "pm.test(\"status code is 401\", function() {",
+              "    pm.response.to.have.status(401)",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"name\": \"{{username_col}}\", \r\n    \"email\": \"{{email_col}}\",\r\n     \"gender\": \"Female\",\r\n      \"status\": \"active\" \r\n      }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE NEW USER--Valid token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify that the appropriate status code is returned when a valid Bearer token is included in the request.",
+              "pm.test(\"Successful Post Requset\", function() {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201,202])",
+              "});",
+              "",
+              "pm.test(\"Status code name has string\", function() {",
+              "    pm.response.to.have.status('Created')",
+              "});",
+              "//Verify cookies when a valid Bearer token is included in the request.",
+              "pm.test(\"cookies 'ahoy_visit' is present\", function() {",
+              "    pm.expect(pm.cookies.has(\"ahoy_visit\")).to.be.true;",
+              "});",
+              "//Verify that the request response time is within the acceptable limit.",
+              "pm.test(\"response time is less thatn 2000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+              "});",
+              "",
+              "//Verify that the response body contains the correct data.",
+              "pm.test(\"value of json fields\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql(\"active\");",
+              "   pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"username_col\"));",
+              "   pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email_col\"));",
+              "});",
+              "",
+              "// Get response ID from Create API",
+              "const response = pm.response.json();",
+              "const newId = response.id;",
+              "",
+              "// Get previously stored IDs",
+              "let createdIds = pm.collectionVariables.get(\"createdIds\");",
+              "",
+              "createdIds = createdIds ? JSON.parse(createdIds) : [];",
+              "",
+              "// Check duplicate ID",
+              "pm.test(\"No duplicate IDs created\", function () {",
+              "    pm.expect(createdIds).to.not.include(newId);",
+              "});",
+              "",
+              "//verify no data leakage between Collection Runner iterations",
+              "",
+              "const currentEmail = response.email;",
+              "const currentId = response.id;",
+              "",
+              "// Get previous iteration values",
+              "let previousRecords = pm.collectionVariables.get(\"iterationRecords\");",
+              "",
+              "previousRecords = previousRecords ",
+              "    ? JSON.parse(previousRecords) ",
+              "    : [];",
+              "",
+              "// Validate no data leakage",
+              "pm.test(\"No duplicate email used across iterations\", function () {",
+              "    let emails = previousRecords.map(record => record.email);",
+              "    pm.expect(emails).to.not.include(currentEmail);",
+              "});",
+              "",
+              "//Creating collection variable to store the id of the created user.",
+              "var jsonData = JSON.parse(pm.response.text());",
+              "pm.collectionVariables.set(\"id\", jsonData.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "//To create random name and email for the user creation request.\r",
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"Sonia\"+random+\"@gmail.com\";\r",
+              "var username=\"Sonia\"+random;\r",
+              "\r",
+              "//Create collection variables with random name and email values for use in the request body\r",
+              "pm.collectionVariables.set(\"email_col\", useremail);\r",
+              "pm.collectionVariables.set(\"username_col\", username);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"name\": \"{{username_col}}\", \r\n    \"email\": \"{{email_col}}\",\r\n     \"gender\": \"Female\",\r\n      \"status\": \"active\" \r\n      }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET  CREAED USER",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Verify that the retrieved user matches the created user.",
+              "pm.test(\"value of json fields\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get(\"id\"));",
+              "    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"username_col\"));",
+              "    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email_col\"));",
+              "});",
+              "",
+              "//Verify the data type of the response body.",
+              "const jsonData=pm.response.json();",
+              "pm.test(\"test the data type of the response body\", function () {",
+              "    pm.expect(jsonData).to.be.an('object');",
+              "    pm.expect(jsonData.name).to.be.a(\"String\");",
+              "    pm.expect(jsonData.id).to.be.a(\"Number\");",
+              "    pm.expect(jsonData.email).to.be.a(\"string\");",
+              "});",
+              "",
+              "//Verify the JSON Schema",
+              "var schema={",
+              "  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",",
+              "  \"title\": \"Generated Schema\",",
+              "  \"type\": \"object\",",
+              "  \"properties\": {",
+              "    \"id\": {",
+              "      \"type\": \"integer\"",
+              "    },",
+              "    \"name\": {",
+              "      \"type\": \"string\"",
+              "    },",
+              "    \"email\": {",
+              "      \"type\": \"string\",",
+              "      \"format\": \"email\"",
+              "    },",
+              "    \"gender\": {",
+              "      \"type\": \"string\"",
+              "    },",
+              "    \"status\": {",
+              "      \"type\": \"string\"",
+              "    }",
+              "  },",
+              "  \"required\": [",
+              "    \"id\",",
+              "    \"name\",",
+              "    \"email\",",
+              "    \"gender\",",
+              "    \"status\"",
+              "  ]",
+              "}",
+              "",
+              "pm.test(\"Schema is valid\", function () {",
+              "    pm.expect(tv4.validate(jsonData,schema)).to.be.true;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/{{id}}",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE NEW USER",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify cookies for updating a user.\r",
+              "pm.test(\"cookies 'ahoy_visit' is present\", function() {\r",
+              "    pm.expect(pm.cookies.has(\"ahoy_visit\")).to.be.true;\r",
+              "});\r",
+              "//Verify the status code for updating a user.\r",
+              "pm.test(\"status code is 200\", function() {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"name\": \"{{username_col}}\", \r\n    \"email\": \"{{email_col}}\",\r\n     \"gender\": \"Female\",\r\n      \"status\": \"Inactive\" \r\n      }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/{{id}}",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE NEW USER STATUS",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the status code when updating partial data of a user.\r",
+              "pm.test(\"status code is 200\", function() {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n          \"status\": \"active\" \r\n      }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/{{id}}",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE NEW USER",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the status code for successful user deletion.\r",
+              "pm.test(\"Status code is 204\", function () {\r",
+              "pm.response.to.have.status(204);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Status code name has string\", function() {\r",
+              "    pm.response.to.have.status('No Content')\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/{{id}}",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE -Already deleted user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the response when deleting an already deleted user.\r",
+              "pm.test(\"Status code is 404\", function () {\r",
+              "pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/{{id}}",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET DELETED USER",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the status code for getting deleted user\r",
+              "pm.test(\"status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"status code name has string\", function () {\r",
+              "    pm.response.to.have.status(\"Not Found\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/{{id}}",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER -Multiple user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify that creating multiple users is allowed. Verify that the expected error message is returned in the response.(GoREST API's POST /public/v2/users endpoint only accepts a single user object ({...}), not an array. When an array is sent, the API cannot map the fields and treats them all as blank.)\r",
+              "pm.test(\"Status code is 422\", function () {\r",
+              "    pm.response.to.have.status(422);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n    {\r\n    \"name\": \"john\",\r\n    \"email\": \"john123@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n},\r\n{\r\n     \"name\": \"john m N\",\r\n    \"email\": \"john1456@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-with invalid json body",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the response when the request body contains invalid JSON\r",
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": \"john\",\r\n    \"email\": \"123@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n};\r\n{\r\n    \"name\": \"john\",\r\n    \"email\": \"john123@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-Unknown fields in JSON",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify response when the request body contains unknown JSON fields.\r",
+              "pm.test(\"unknown fields are ignored or Bad Request \", function () {\r",
+              "   pm.expect(pm.response.code).to.be.oneOf([201,202])\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": \"{{username_col}}\",\r\n    \"email\": \"{{email_col}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\",\r\n    \"Phone\": \"12345789\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-Null",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify API behavior when request body contains null values.\r",
+              "\r",
+              "pm.test(\"API should reject null values for required fields\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": null,\r\n    \"email\": null,\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\",\r\n    \"Phone\": \"12345789\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-Maximum length name",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify API behavior when request body contains maximum length value in the name field\r",
+              "\r",
+              "pm.test(\"Name is too long (maximum is 200 characters)\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": \"johnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\",\r\n    \"email\": \"{{email_col}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\",\r\n    \"Phone\": \"12345789\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-Special characters",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify API behavior when request body contains special characters in the user name\r",
+              "pm.test(\"API handles special characters correctly\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([201, 400, 422]);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": \"John@#$%^&*\",\r\n    \"email\":\"john.speciaql123@example.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\",\r\n    \"Phone\": \"12345789\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-with missing body",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the response when the request body is missing\r",
+              "pm.test(\"Status code is 422\", function () {\r",
+              " pm.response.to.have.status(422);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Bad request or request Body is missing\", function() {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([422,400])\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-with missing email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the response when the request body with  missing email\r",
+              "pm.test(\"Status code is 422\", function () {\r",
+              " pm.response.to.have.status(422);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": \"john\",\r\n      \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE USER-Unsupported content type",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the response when the request body has Invalid data type\r",
+              "pm.test(\"Status code is 422\", function () {\r",
+              " pm.response.to.have.status(422);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "  {\r\n    \"name\": \"John N M\",\r\n    \"email\": \"johnn4356@gmail.com\",\r\n    \"gender\": 122,\r\n    \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CREATE NEW USER--SQL injection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify that the API properly handles SQL injection attempts.",
+              "pm.test(\"SQL injection processesd  as plain text\", function() {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201,202])",
+              "});",
+              "",
+              "// Verify that database error messages are not exposed in the response",
+              "",
+              "const responseText = pm.response.text();",
+              "",
+              "const dbErrorPatterns = [",
+              "    \"sql syntax\",",
+              "    \"sql error\",",
+              "    \"mysql\",",
+              "    \"postgres\",",
+              "    \"database error\",",
+              "    \"sqlite\",",
+              "    \"ora-\",",
+              "    \"syntax error\",",
+              "    \"query failed\"",
+              "];",
+              "",
+              "let foundError = false;",
+              "",
+              "dbErrorPatterns.forEach(function(pattern) {",
+              "    if (responseText.toLowerCase().includes(pattern)) {",
+              "        foundError = true;",
+              "    }",
+              "});",
+              "",
+              "pm.test(\"Response should not contain database error messages\", function () {",
+              "    pm.expect(foundError).to.be.false;",
+              "});",
+              "// Verify that authentication is not bypassed",
+              "",
+              "const response = pm.response.json();",
+              "",
+              "pm.test(\"Response should not contain authenticated user data\", function () {",
+              "    pm.expect(response).not.to.have.property(\"token\");",
+              "    pm.expect(response).not.to.have.property(\"userId\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "//To create random name and email for the user creation request.\r",
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"Sonia\"+random+\"@gmail.com\";\r",
+              "var username=\"Sonia\"+random;\r",
+              "\r",
+              "//Create collection variables with random name and email values for use in the request body\r",
+              "pm.collectionVariables.set(\"email_col\", useremail);\r",
+              "pm.collectionVariables.set(\"username_col\", username);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n    \"name\": \"admin' OR '1'='1\",\r\n    \"email\": \"{{email_col}}\",\r\n     \"gender\": \"Female\",\r\n      \"status\": \"active\" \r\n      }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE NON EXISTING USER",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the status code for updating non existing user\r",
+              "pm.test(\"status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"status code name has string\", function () {\r",
+              "    pm.response.to.have.status(\"Not Found\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Maria\",\r\n    \"email\": \"john123@gmail.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/1",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE USER without request body",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify the response when the request body is missing for updating user data\r",
+              "pm.test(\"Bad request or request Body is missing\", function() {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([422,400])\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/8538597",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "8538597"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE -Non existing user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Verify that the request returns an error when attempting to delete a non-existing user.\r",
+              "pm.test(\"Status code is 404\", function () {\r",
+              "pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "25ec75a5c3bf4c7a0060c5529dc827671e6e1385c88f42a4f02f801f0d00de69",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{URL_ENV}}/public/v2/users/1",
+          "host": [
+            "{{URL_ENV}}"
+          ],
+          "path": [
+            "public",
+            "v2",
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "id",
+      "value": ""
+    },
+    {
+      "key": "email_col",
+      "value": ""
+    },
+    {
+      "key": "username_col",
+      "value": ""
+    }
+  ]
+}
